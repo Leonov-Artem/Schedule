@@ -5,15 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static Schedule.ScheduleType;
 
 namespace Schedule
 {
     public partial class MainPage : ContentPage
     {
-        const string DAY = "в день";
-        const string NIGHT = "в ночь";
-        const string AFTER_NIGHT = "отсыпной";
-        const string DAY_OFF = "выходной";
         const string NOTIFICATION = "Уведомление";
         const string ERROR = "Ошибка!";
         const string CANCEL_OK = "OK";
@@ -70,10 +67,7 @@ namespace Schedule
         private string CalculateResult()
         {
             _schedule = new Schedule();
-            ScheduleType scheduleType = StringToScheduleType(_choice);
-            ScheduleType res = _schedule.Calculate(scheduleType, _newDate);
-
-            return ScheduleTypeToString(res);
+            return _schedule.Calculate(_choice, _newDate);
         }
 
         private void DisplayResult(string result)
@@ -100,38 +94,8 @@ namespace Schedule
             }
         }
 
-        #region converters
-
-        private ScheduleType StringToScheduleType(string type)
-        {
-            var dict = new Dictionary<string, ScheduleType>()
-            {
-                [DAY] = ScheduleType.Day,
-                [NIGHT] = ScheduleType.Night,
-                [AFTER_NIGHT] = ScheduleType.AfterNight,
-                [DAY_OFF] = ScheduleType.DayOff
-            };
-
-            return dict[type];
-        }
-
-        private string ScheduleTypeToString(ScheduleType scheduleType)
-        {
-            var dict = new Dictionary<ScheduleType, string>()
-            {
-                [ScheduleType.Day] = DAY,
-                [ScheduleType.Night] = NIGHT,
-                [ScheduleType.AfterNight] = AFTER_NIGHT,
-                [ScheduleType.DayOff] = DAY_OFF
-            };
-
-            return dict[scheduleType];
-        }
-
         private string DateToString()
             => _newDate.ToString("dd/MM/yyyy");
-
-        #endregion
 
         #region displayed items
 

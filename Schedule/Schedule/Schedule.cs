@@ -2,32 +2,33 @@
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
+using static Schedule.ScheduleType;
 
 namespace Schedule
 {
     public class Schedule
     {
-        ScheduleType[] scheduleTypes = new ScheduleType[]
+        string[] scheduleTypes = new string[]
         {
-            ScheduleType.Day,
-            ScheduleType.Night,
-            ScheduleType.AfterNight,
-            ScheduleType.DayOff
+            DAY,
+            NIGHT,
+            AFTER_NIGHT,
+            DAY_OFF
         };
 
         DateTime _currentDate;
-        RingList<ScheduleType> _ringList;
+        RingList<string> _ringList;
 
         public Schedule()
         {
             _currentDate = DateTime.Now;
-            _ringList = new RingList<ScheduleType>(scheduleTypes);
+            _ringList = new RingList<string>(scheduleTypes);
         }
 
-        public ScheduleType Calculate(ScheduleType currentType, DateTime newDate)
+        public string Calculate(string currentType, DateTime newDate)
         {
             SwitchRingListToCurrentType(currentType);
-            ScheduleType newType = currentType;
+            string newType = currentType;
 
             while (CurrentDate() <= newDate.Date)
             {
@@ -38,20 +39,17 @@ namespace Schedule
             return newType;
         }
 
-        private void SwitchRingListToCurrentType(ScheduleType type)
+        private void SwitchRingListToCurrentType(string type)
         {
             while (CurrentType() != type)
                 _ = NextType();
         }
 
-        private ScheduleType NextType()
+        private string NextType()
             => _ringList.Next;
 
-        private ScheduleType CurrentType()
+        private string CurrentType()
             => _ringList.Current;
-
-        private void ResetRingList()
-            => _ringList.Reset();
 
         private DateTime CurrentDate()
             => _currentDate.Date;

@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Schedule
 {
-    public enum ScheduleType
+    public static class ScheduleType
     {
-        Day,
-        Night,
-        AfterNight,
-        DayOff
+        public const string DAY = "в день";
+        public const string NIGHT = "в ночь";
+        public const string AFTER_NIGHT = "отсыпной";
+        public const string DAY_OFF = "выходной";
     }
 }
